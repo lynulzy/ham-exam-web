@@ -71,3 +71,49 @@ export function applyPayload(payload: SyncPayload): void {
     if (state) window.localStorage.setItem(`exam:savedState:${bank}`, JSON.stringify(state));
   }
 }
+
+export type BankSummary = {
+  bank: string;
+  practiceAnswered: number;
+  practiceTotal: number;
+  practiceOrder: "sequential" | "random" | null;
+  examAnswered: number;
+  examTotal: number;
+  examOngoing: boolean;
+};
+
+export function getLocalSummary(banks: string[]): BankSummary[] {
+  return banks.map((bank) => {
+    let practiceAnswered = 0;
+    let practiceTotal = 0;
+    let practiceOrder: "sequential" | "random" | null = null;
+
+    const pRaw = window.localStorage.getItem(`practice:${bank}`);
+    if (pRaw) {
+      try {
+        const p = JSON.parse(pRaw) as SavedState;
+        practiceTotal = p.total ?? 0;
+        practiceAnswered = (p.answersByPosition ?? []).filter(Boolean).length;
+        practiceOrder = p.order ?? null;
+      } catch { /* ignore */ }
+    }
+
+    let examAnswered = 0;
+    let examTotal = 0;
+    let examOngoing = false;
+
+    const eRaw = window.localStorage.getItem(`exam:savedState:${bank}`);
+    if (eRaw) {
+      try {
+        const e = JSON.parse(eRaw) as ExamSavedState;
+        if (e.endAtMs && e.endAtMs > Date.now()) {
+          examTotal = e.total ?? 0;
+          examAnswered = (e.answersByPosition ?? []).filter(Boolean).length;
+          examOngoing = true;
+        }
+      } catch { /* ignore */ }
+    }
+
+    return { bank, practiceAnswered, practiceTotal, practiceOrder, examAnswered, examTotal, examOngoing };
+  });
+}
