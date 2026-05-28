@@ -9,6 +9,7 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
+import { SyncPanel } from "@/components/common/SyncPanel";
 
 type Props = {
   open: boolean;
@@ -45,6 +46,8 @@ export function ExamSettingsDialog({ open, onOpenChange }: Props) {
             15），60 分钟，45 题合格；C 类 90 题（单选 70，多选 20），90 分钟，70
             题合格。多选题需与标准答案完全一致，否则不得分。
           </div>
+          <Separator />
+          <SyncPanel />
         </div>
       </DialogContent>
     </Dialog>

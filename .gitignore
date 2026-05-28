@@ -20,6 +20,9 @@
 # production
 /build
 
+# sync data (server-side user data)
+/data/
+
 # PWA files
 **/public/sw.js
 **/public/workbox-*.js

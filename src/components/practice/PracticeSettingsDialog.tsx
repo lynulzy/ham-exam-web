@@ -12,6 +12,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Separator } from "@/components/ui/separator";
+import { SyncPanel } from "@/components/common/SyncPanel";
 
 type Props = {
   open: boolean;
@@ -83,6 +84,8 @@ export function PracticeSettingsDialog({
               <code className="px-2 py-0.5 rounded border bg-muted">Enter</code>
             </div>
           </div>
+          <Separator />
+          <SyncPanel />
         </div>
       </DialogContent>
     </Dialog>
